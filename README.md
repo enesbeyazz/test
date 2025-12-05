@@ -3,7 +3,7 @@ Student: Enes Beyaz (2322190013)
 Assignment: Assignment 9 - Social Media Analytics Platform
 Course: Object Based Programming (2019G0005)
 
-📋 # Project Overview
+📋 #Project Overview
 This project implements a Social Media Analytics Platform using Object-Oriented Programming principles. The system manages social media accounts, posts, and interactions across multiple platforms (Instagram, X, Facebook) and provides analytics capabilities for engagement metrics and account performance.
 
 🎯 Project Objectives
