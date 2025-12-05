@@ -1,21 +1,31 @@
-Social Media Analytics Platform
-Student: Enes Beyaz (2322190013)
-Assignment: Assignment 9 - Social Media Analytics Platform
-Course: Object Based Programming (2019G0005)
+# Social Media Analytics Platform
 
-📋 #Project Overview
+**Student:** Enes Beyaz (2322190013)  
+**Assignment:** Assignment 9 - Social Media Analytics Platform  
+**Course:** Object Based Programming (2019G0005)
+
+---
+
+## 📋 Project Overview
+
 This project implements a Social Media Analytics Platform using Object-Oriented Programming principles. The system manages social media accounts, posts, and interactions across multiple platforms (Instagram, X, Facebook) and provides analytics capabilities for engagement metrics and account performance.
 
-🎯 Project Objectives
+---
 
-Apply OOP principles (Encapsulation, Inheritance, Polymorphism, Abstraction)
-Implement data structures for efficient analytics computation
-Develop algorithms for engagement tracking and recommendation
-Create a modular, maintainable architecture
+## 🎯 Project Objectives
 
+- Apply OOP principles (Encapsulation, Inheritance, Polymorphism, Abstraction)
+- Implement data structures for efficient analytics computation
+- Develop algorithms for engagement tracking and recommendation
+- Create a modular, maintainable architecture
 
-🏗️ Architecture Design (Stage 1)
-Class Diagram
+---
+
+## 🏗️ Architecture Design (Stage 1)
+
+### Class Diagram
+
+```
 ┌─────────────────────────────────────┐
 │         SocialAccount               │
 ├─────────────────────────────────────┤
@@ -91,7 +101,11 @@ Class Diagram
 │ + get_top_posts_by_engagement(): []│
 │ + get_account_summary(id): Dict     │
 └─────────────────────────────────────┘
-Relationships
+```
+
+### Relationships
+
+```
 ┌──────────────────┐         ┌──────────────────┐
 │ SocialAccount    │ 1     * │   SocialPost     │
 │                  │◆────────│                  │
@@ -112,113 +126,112 @@ Relationships
 │  │ AnalyticsEngine    │      │
 │  └────────────────────┘      │
 └──────────────────────────────┘
+```
 
-🔧 Implementation Details
-Core Classes
-1. Interaction
+---
 
-Represents a single interaction event (like, comment, share, view)
-Stores timestamp and optional source account
-Immutable after creation
+## 🔧 Implementation Details
 
-2. SocialAccount
+### Core Classes
 
-Represents a user account on any platform
-Manages follower/following counts
-Contains list of owned posts
-Key Methods:
+#### 1. **Interaction**
+- Represents a single interaction event (like, comment, share, view)
+- Stores timestamp and optional source account
+- Immutable after creation
 
-view_profile(): Returns formatted profile information
+#### 2. **SocialAccount**
+- Represents a user account on any platform
+- Manages follower/following counts
+- Contains list of owned posts
+- **Key Methods:**
+  - `view_profile()`: Returns formatted profile information
 
+#### 3. **SocialPost**
+- Represents a post with content and metrics
+- Tracks likes, comments, shares, impressions
+- Maintains interaction history
+- **Key Methods:**
+  - `add_like()`, `add_comment()`, `add_share()`: Update metrics and log interactions
+  - `add_impression()`: Track post views
 
+#### 4. **AnalyticsEngine**
+- Centralized analytics computation
+- Calculates engagement metrics
+- Generates account summaries
+- **Key Methods:**
+  - `calculate_engagement_rate()`: (likes + comments + shares) / followers
+  - `get_account_summary()`: Aggregate statistics for an account
 
-3. SocialPost
+#### 5. **SocialMediaAnalyticsSystem**
+- Main orchestrator/facade
+- Manages all accounts and posts
+- Provides fast lookup via hash maps
+- **Key Methods:**
+  - `add_account()`, `add_post()`: Register new entities
+  - `get_top_posts_by_engagement()`: Ranked post list
+  - `get_account_summary()`: Account statistics
 
-Represents a post with content and metrics
-Tracks likes, comments, shares, impressions
-Maintains interaction history
-Key Methods:
+---
 
-add_like(), add_comment(), add_share(): Update metrics and log interactions
-add_impression(): Track post views
+## 💡 OOP Principles Applied
 
+### ✅ Encapsulation
+- Private data managed through public methods
+- Interaction metrics updated only through defined methods
+- Internal collections hidden behind system interface
 
+### ✅ Composition
+- `SocialAccount` **has many** `SocialPost`
+- `SocialPost` **has many** `Interaction`
+- `SocialMediaAnalyticsSystem` **uses** `AnalyticsEngine`
 
-4. AnalyticsEngine
+### ✅ Aggregation
+- System aggregates accounts and posts
+- Weak ownership - entities can exist independently
 
-Centralized analytics computation
-Calculates engagement metrics
-Generates account summaries
-Key Methods:
+### ✅ Single Responsibility Principle
+- Each class has one clear purpose
+- `AnalyticsEngine` separated from data management
+- `Interaction` only represents interaction events
 
-calculate_engagement_rate(): (likes + comments + shares) / followers
-get_account_summary(): Aggregate statistics for an account
+---
 
+## 🔍 Algorithms Implemented (Stage 2)
 
+### 1. **Interaction Counting**
+- Integer counters maintained in `SocialPost`
+- O(1) increment operations
 
-5. SocialMediaAnalyticsSystem
+### 2. **Engagement Rate Calculation**
+```python
+engagement_rate = (likes + comments + shares) / followers
+```
 
-Main orchestrator/facade
-Manages all accounts and posts
-Provides fast lookup via hash maps
-Key Methods:
+### 3. **Search by ID**
+- Hash map lookup: O(1) average case
+- `posts_by_id`, `accounts_by_id` dictionaries
 
-add_account(), add_post(): Register new entities
-get_top_posts_by_engagement(): Ranked post list
-get_account_summary(): Account statistics
+### 4. **Sorting by Engagement**
+- Uses Python's built-in sort with custom key
+- Time complexity: O(n log n)
 
+---
 
+## 📊 Data Structures
 
+| Structure | Purpose | Access Time |
+|-----------|---------|-------------|
+| `List[SocialPost]` | Store all posts | O(n) search |
+| `Dict[int, SocialPost]` | Fast post lookup | O(1) average |
+| `Dict[int, SocialAccount]` | Fast account lookup | O(1) average |
+| `List[Interaction]` | Interaction history | O(n) traverse |
 
-💡 OOP Principles Applied
-✅ Encapsulation
+---
 
-Private data managed through public methods
-Interaction metrics updated only through defined methods
-Internal collections hidden behind system interface
+## 🚀 Usage Example
 
-✅ Composition
-
-SocialAccount has many SocialPost
-SocialPost has many Interaction
-SocialMediaAnalyticsSystem uses AnalyticsEngine
-
-✅ Aggregation
-
-System aggregates accounts and posts
-Weak ownership - entities can exist independently
-
-✅ Single Responsibility Principle
-
-Each class has one clear purpose
-AnalyticsEngine separated from data management
-Interaction only represents interaction events
-
-
-🔍 Algorithms Implemented (Stage 2)
-1. Interaction Counting
-
-Integer counters maintained in SocialPost
-O(1) increment operations
-
-2. Engagement Rate Calculation
-pythonengagement_rate = (likes + comments + shares) / followers
-3. Search by ID
-
-Hash map lookup: O(1) average case
-posts_by_id, accounts_by_id dictionaries
-
-4. Sorting by Engagement
-
-Uses Python's built-in sort with custom key
-Time complexity: O(n log n)
-
-
-📊 Data Structures
-StructurePurposeAccess TimeList[SocialPost]Store all postsO(n) searchDict[int, SocialPost]Fast post lookupO(1) averageDict[int, SocialAccount]Fast account lookupO(1) averageList[Interaction]Interaction historyO(n) traverse
-
-🚀 Usage Example
-python# Initialize system
+```python
+# Initialize system
 system = SocialMediaAnalyticsSystem()
 
 # Create account
@@ -247,6 +260,7 @@ print(f"Account Summary: {summary}")
 ---
 
 ## 📁 Project Structure
+
 ```
 OOP_SocialMediaAnalytics_2322190013/
 │
@@ -261,97 +275,114 @@ OOP_SocialMediaAnalytics_2322190013/
 │
 └── S3_AdvancedAlgorithms/             # Stage 3: Advanced Features
     └── (to be implemented)
+```
 
-🎯 Stage 2 Completed Features
+---
 
-✅ Core class implementation
-✅ Account and post management
-✅ Interaction logging
-✅ Basic analytics (engagement rate, account summary)
-✅ Fast lookup using hash maps
-✅ Sorting by engagement
+## 🎯 Stage 2 Completed Features
 
+- ✅ Core class implementation
+- ✅ Account and post management
+- ✅ Interaction logging
+- ✅ Basic analytics (engagement rate, account summary)
+- ✅ Fast lookup using hash maps
+- ✅ Sorting by engagement
 
-🔜 Stage 3 - Planned Features
-Polymorphic Post Types
+---
 
-TextPost, ImagePost, VideoPost subclasses
-Polymorphic getContentSummary() method
+## 🔜 Stage 3 - Planned Features
 
-Advanced Algorithms
+### Polymorphic Post Types
+- `TextPost`, `ImagePost`, `VideoPost` subclasses
+- Polymorphic `getContentSummary()` method
 
-Recommendation System
+### Advanced Algorithms
+1. **Recommendation System**
+   - Top N posts by engagement
+   - Top N accounts by average engagement
 
-Top N posts by engagement
-Top N accounts by average engagement
+2. **Trending Detection**
+   - Hashtag frequency analysis
+   - Keyword trending over time
 
+3. **Usage Analytics**
+   - Per-platform statistics
+   - Content type breakdown
+   - System-wide summaries
 
-Trending Detection
+### Additional Features
+- JSON data import/export
+- Simple UI/Dashboard
+- Multi-platform comparison
 
-Hashtag frequency analysis
-Keyword trending over time
+---
 
+## 🛠️ Technologies Used
 
-Usage Analytics
+- **Language:** Python 3.x
+- **Core Libraries:** 
+  - `datetime` - Timestamp management
+  - `typing` - Type hints for clarity
 
-Per-platform statistics
-Content type breakdown
-System-wide summaries
+---
 
+## 📝 Design Decisions
 
+1. **Hash Maps for Fast Lookup:** Used dictionaries for O(1) access to posts and accounts by ID
+2. **Composition over Inheritance:** Preferred composition for relationships (Account has Posts)
+3. **Centralized Analytics:** Separated analytics logic into dedicated engine class
+4. **Interaction Logging:** Complete history maintained for future analytics capabilities
+5. **Optional Source Account:** Allows tracking anonymous interactions while supporting user attribution
 
-Additional Features
+---
 
-JSON data import/export
-Simple UI/Dashboard
-Multi-platform comparison
+## 🧪 Testing Strategy
 
+### Unit Tests (Planned)
+- Account creation and profile viewing
+- Post creation and metric updates
+- Engagement rate calculation
+- Top posts ranking algorithm
+- Account summary generation
 
-🛠️ Technologies Used
+### Mock Objects
+- Mock accounts for testing analytics
+- Simulated interaction patterns
 
-Language: Python 3.x
-Core Libraries:
+---
 
-datetime - Timestamp management
-typing - Type hints for clarity
+## 📚 References
 
+- Course Materials: Introduction to OOP (cs01, cs02_01)
+- Assignment Description: Final Assignment Descriptions.pdf
+- Python Documentation: [docs.python.org](https://docs.python.org)
 
+---
 
+## 👤 Student Information
 
-📝 Design Decisions
+**Name:** Enes Beyaz  
+**Student ID:** 2322190013  
+**Program:** Software Engineering (English)  
+**Course:** Object Based Programming  
+**Lecturer:** Dr. Coşkun Şahin
 
-Hash Maps for Fast Lookup: Used dictionaries for O(1) access to posts and accounts by ID
-Composition over Inheritance: Preferred composition for relationships (Account has Posts)
-Centralized Analytics: Separated analytics logic into dedicated engine class
-Interaction Logging: Complete history maintained for future analytics capabilities
-Optional Source Account: Allows tracking anonymous interactions while supporting user attribution
+---
 
+## 📅 Submission Timeline
 
-🧪 Testing Strategy
-Unit Tests (Planned)
+- **Stage 1 (Design):** 05/12/2025 ✅
+- **Stage 2 (Basic Implementation):** 19/12/2025 🔄
+- **Stage 3 (Advanced Features):** 05/02/2026 📅
 
-Account creation and profile viewing
-Post creation and metric updates
-Engagement rate calculation
-Top posts ranking algorithm
-Account summary generation
+---
 
-Mock Objects
+## 📞 Contact
 
-Mock accounts for testing analytics
-Simulated interaction patterns
+For questions or feedback:
+- GitHub: `drcoskuns` (Collaborator added)
+- Repository: `OOP_SocialMediaAnalytics_2322190013`
 
+---
 
-📚 References
-
-Course Materials: Introduction to OOP (cs01, cs02_01)
-Assignment Description: Final Assignment Descriptions.pdf
-Python Documentation: docs.python.org
-
-
-👤 Student Information
-Name: Enes Beyaz
-Student ID: 2322190013
-Program: Software Engineering (English)
-Course: Object Based Programming
-Lecturer: Dr. Coşkun Şahin
+*This README will be updated as the project progresses through Stages 2 and 3.*
